@@ -1,8 +1,10 @@
-from sqlalchemy.orm import Mapped, mapped_column
 import uuid
-from sqlalchemy import String, Integer, Boolean
 
-from .base import Base
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Integer, Boolean, relationship
+
+from .base import Base, User
+from .plan import Plan
 
 
 class Plan(Base):
@@ -16,9 +18,12 @@ class Plan(Base):
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
     price: Mapped[int] = mapped_column(Integer)
-    currency = Mapped[str] = mapped_column(String)
+    currency = Mapped[str] = mapped_column(String, default='brl')
     interval = Mapped[str] = mapped_column(String)
 
     stripe_product_id: Mapped(str) = mapped_column(String)
     stripe_price_id: Mapped(str) = mapped_column(String)
  
+    subscriptions: Mapped[list["Subscription"]] = relationship(
+        back_populates="plan"
+    )

@@ -13,7 +13,12 @@ class Base(DeclarativeBase):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    pass
+    stripe_customer_id = Column(String(255), unique=True)
+
+    subscriptions: Mapped[list["Subscription"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
 
 engine = create_async_engine(DATABASE_URL)
