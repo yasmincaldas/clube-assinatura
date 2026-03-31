@@ -11,19 +11,20 @@ class Plan(Base):
     """
     Representa um plano de assinatura.
     """
-    __tablename__='plans'
+    __tablename__ = 'plans'
 
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-
-    name: Mapped[str] = mapped_column(String)
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    
+    name: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String)
-    price: Mapped[int] = mapped_column(Integer)
-    currency = Mapped[str] = mapped_column(String, default='brl')
-    interval = Mapped[str] = mapped_column(String)
-
-    stripe_product_id: Mapped(str) = mapped_column(String)
-    stripe_price_id: Mapped(str) = mapped_column(String)
- 
+    price: Mapped[int] = mapped_column(Integer, nullable=False)  
+    currency: Mapped[str] = mapped_column(String, default='brl')
+    interval: Mapped[str] = mapped_column(String, nullable=False) 
+    
+    stripe_product_id: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    stripe_price_id: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    
     subscriptions: Mapped[list["Subscription"]] = relationship(
-        back_populates="plan"
+        back_populates="plan",
+        cascade="all, delete-orphan"
     )

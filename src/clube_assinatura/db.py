@@ -3,24 +3,15 @@ from collections.abc import AsyncGenerator
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
+from models.base import Base
+from .settings import Settings
 
-DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
-
-class Base(DeclarativeBase):
-    pass
-
+DATABASE_URL= Settings().DATABASE_URL
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    stripe_customer_id = Column(String(255), unique=True)
-
-    subscriptions: Mapped[list["Subscription"]] = relationship(
-        back_populates="user",
-        cascade="all, delete-orphan"
-    )
-
-
+    ...
+    
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
