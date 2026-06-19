@@ -1,17 +1,25 @@
 from collections.abc import AsyncGenerator
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from fastapi_users.db import (
+    SQLAlchemyBaseUserTableUUID,
+    SQLAlchemyUserDatabase,
+)
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 from models.base import Base
 from .settings import Settings
 
 
-DATABASE_URL= Settings().DATABASE_URL
+DATABASE_URL = Settings().DATABASE_URL
 
-class User(SQLAlchemyBaseUserTableUUID, Base):
-    ...
-    
+
+class User(SQLAlchemyBaseUserTableUUID, Base): ...
+
+
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
