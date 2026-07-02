@@ -5,35 +5,31 @@ from clube_assinatura.domain.models.customer import Customer
 
 
 class CustomerRepository(ABC):
-    """Interface de repositório para a entidade ``Customer``.
-
-    Define o contrato de persistência dos clientes,
-    abstraindo o mecanismo de armazenamento subjacente.
-    """
+    """Contrato de persistência para a entidade Customer."""
 
     @abstractmethod
     async def get_by_id(self, customer_id: UUID) -> Customer | None:
-        """Recupera um cliente pelo seu identificador único."""
+        """Busca um cliente pelo UUID interno."""
         ...
 
     @abstractmethod
     async def get_by_email(self, email: str) -> Customer | None:
-        """Recupera um cliente pelo endereço de e-mail."""
+        """Busca um cliente pelo e-mail."""
         ...
 
     @abstractmethod
     async def get_by_stripe_customer_id(
         self, stripe_customer_id: str
     ) -> Customer | None:
-        """Recupera um cliente pelo ID de cliente do Stripe."""
+        """Busca um cliente pelo ID de cliente do Stripe (ex: cus_xxx)."""
         ...
 
     @abstractmethod
     async def save(self, customer: Customer) -> Customer:
-        """Persiste um cliente (criação ou atualização)."""
+        """Persiste um cliente novo ou atualiza um existente."""
         ...
 
     @abstractmethod
     async def delete(self, customer_id: UUID) -> None:
-        """Remove um cliente pelo seu identificador único."""
+        """Remove um cliente pelo UUID. Silencioso se não existir."""
         ...
