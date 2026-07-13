@@ -20,25 +20,25 @@ class PaymentRepositorySQL(PaymentRepository):
         return result.scalar_one_or_none()
 
     async def get_by_subscription_id(self, subscription_id: UUID):
-        result = await self._session.execute(
+        result = await self.session.execute(
             select(Payment).where(Payment.subscription_id == subscription_id)
         )
         return list(result.scalars().all())
 
     async def get_by_stripe_invoice_id(self, invoice_id: str):
-        result = await self._session.execute(
+        result = await self.session.execute(
             select(Payment).where(Payment.stripe_invoice_id == invoice_id)
         )
         return result.scalar_one_or_none()
 
     async def get_by_stripe_payment_intent_id(self, payment_intent_id: str):
-        result = await self._session.execute(
+        result = await self.session.execute(
             select(Payment).where(Payment.stripe_payment_intent_id == payment_intent_id)
         )
         return result.scalar_one_or_none()
 
     async def save(self, payment: Payment):
-        self._session.add(payment)
+        self.session.add(payment)
         await self.session.flush()
         await self.session.refresh(payment)
         return payment

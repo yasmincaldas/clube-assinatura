@@ -3,8 +3,9 @@ import uuid
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, Integer, Boolean, relationship
 
-from .base import Base, User
+from .base import Base
 from .plan import Plan
+from src.clube_assinatura.db import User
 
 
 class Plan(Base):
