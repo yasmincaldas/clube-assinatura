@@ -16,7 +16,7 @@ class CreatePlanData:
 
 
 class CreatePlan:
-    """Cria um novo plano de assinatura."""
+    """Cria um novo plano de assinatura a partir de um evento webhook do Stripe."""
 
     def __init__(self, repository: PlanRepository):
         self._repository = repository
