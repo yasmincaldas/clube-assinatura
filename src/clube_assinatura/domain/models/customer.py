@@ -10,9 +10,7 @@ from .base import Base
 
 
 class Customer(Base):
-    """
-    Representa um cliente.
-    """
+    """Representa um cliente."""
 
     __tablename__ = 'customers'
 
@@ -28,9 +26,6 @@ class Customer(Base):
     default_payment_method_id: Mapped[Optional[str]] = mapped_column(
         String, nullable=True
     )
-    stripe_subscription_id: Mapped[Optional[str]] = mapped_column(
-        String, nullable=True
-    )
 
     created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
@@ -39,3 +34,4 @@ class Customer(Base):
 
     user: Mapped['User'] = relationship(back_populates='customer')
     payments: Mapped[List['Payment']] = relationship(back_populates='customer')
+    subscriptions: Mapped[List['Subscription']] = relationship(back_populates='customer')
